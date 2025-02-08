@@ -5,35 +5,32 @@ using UnityEngine.SceneManagement;
 
 public class mauve : MonoBehaviour
 {
-    float temps = 0f;
     // Start is called before the first frame update
     void Start()
     {
         
     }
+      
+        private bool isCountingDown = false;
+    private float countdownTime = 5f;
 
-    // Update is called once per frame
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Terminus") && !isCountingDown)
+        {
+        isCountingDown = true;}
+    }
+
     private void Update()
     {
-        print(temps);
-    }
-      
-    void OnCollisionEnter(Collision collision){
-        print(collision.gameObject.name + " : " + collision.gameObject.tag);
-        if(collision.gameObject.CompareTag("Terminus")){
-          for(int i=1; i<6; i++){
-            temps += Time.deltaTime;}
-        Debug.Log(temps);
-        if(temps == 5)
+        if (isCountingDown)
         {
-          SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-          print("alo");
-        }
+            countdownTime -= Time.deltaTime;
+            if (countdownTime <= 0)
+            {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);}
         }
     }
-      
-    }
+}
+
 
